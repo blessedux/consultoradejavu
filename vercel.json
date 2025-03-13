@@ -1,16 +1,10 @@
 {
-  "redirects": [
-    { "source": "/", "destination": "/", "permanent": true }
-  ],
+  "version": 2,
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
-      ]
-    }
   ]
 } 
