@@ -1,10 +1,16 @@
 {
   "version": 2,
-  "buildCommand": "next build",
+  "buildCommand": "npm run export || npm run build",
   "devCommand": "next dev",
-  "outputDirectory": ".next",
+  "outputDirectory": "out",
   "framework": "nextjs",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ]
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/public/static-app/(.*)", "dest": "/static-app/$1" },
+    { "src": "/(.*)", "dest": "/index.html", "status": 200 }
+  ],
+  "fallback": {
+    "source": "/:path*",
+    "destination": "/index.html"
+  }
 } 
