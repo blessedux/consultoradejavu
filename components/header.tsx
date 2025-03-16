@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
@@ -8,12 +8,37 @@ import { cn } from "@/lib/utils"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [locomotiveScroll, setLocomotiveScroll] = useState<any>(null)
+
+  useEffect(() => {
+    // Get the Locomotive Scroll instance from the window object
+    if (typeof window !== 'undefined') {
+      const scroll = (window as any).__locomotiveScroll
+      if (scroll) {
+        setLocomotiveScroll(scroll)
+      }
+    }
+  }, [])
+
+  const scrollToSection = (sectionId: string) => {
+    if (locomotiveScroll) {
+      const element = document.querySelector(sectionId)
+      if (element) {
+        locomotiveScroll.scrollTo(element, {
+          offset: -100,
+          duration: 1000,
+          easing: [0.25, 0.00, 0.35, 1.00],
+        })
+      }
+    }
+    setMobileMenuOpen(false)
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0F0000]/90 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <div onClick={() => scrollToSection('#hero')} className="flex items-center cursor-pointer">
           <Image 
             src="/logo_dejavu.svg" 
             alt="Consultora Dejavu Logo" 
@@ -21,28 +46,28 @@ export function Header() {
             height={36} 
             className="h-9 w-auto" 
           />
-        </Link>
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link href="#" className="text-white hover:text-[#F05A28] transition-colors">
+          <button onClick={() => scrollToSection('#hero')} className="text-white hover:text-[#F05A28] transition-colors">
             Inicio
-          </Link>
-          <Link href="#" className="text-gray-400 hover:text-[#F05A28] transition-colors">
+          </button>
+          <button onClick={() => scrollToSection('#future')} className="text-gray-400 hover:text-[#F05A28] transition-colors">
             Nosotros
-          </Link>
-          <Link href="#" className="text-gray-400 hover:text-[#F05A28] transition-colors">
+          </button>
+          <button onClick={() => scrollToSection('#services')} className="text-gray-400 hover:text-[#F05A28] transition-colors">
             Servicios
-          </Link>
-          <Link href="#" className="text-gray-400 hover:text-[#F05A28] transition-colors">
+          </button>
+          <button onClick={() => scrollToSection('#projects')} className="text-gray-400 hover:text-[#F05A28] transition-colors">
             Proyectos
-          </Link>
-          <Link href="#" className="text-gray-400 hover:text-[#F05A28] transition-colors">
+          </button>
+          <button onClick={() => scrollToSection('#skills')} className="text-gray-400 hover:text-[#F05A28] transition-colors">
             Recursos
-          </Link>
-          <Link href="#" className="text-gray-400 hover:text-[#F05A28] transition-colors">
+          </button>
+          <button onClick={() => scrollToSection('#contact')} className="text-gray-400 hover:text-[#F05A28] transition-colors">
             Contacto
-          </Link>
+          </button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -59,48 +84,42 @@ export function Header() {
         )}
       >
         <nav className="flex flex-col p-4 space-y-4">
-          <Link
-            href="#"
-            className="text-white hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          <button
+            onClick={() => scrollToSection('#hero')}
+            className="text-white hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Inicio
-          </Link>
-          <Link
-            href="#"
-            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection('#future')}
+            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Nosotros
-          </Link>
-          <Link
-            href="#"
-            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection('#services')}
+            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Servicios
-          </Link>
-          <Link
-            href="#"
-            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection('#projects')}
+            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Proyectos
-          </Link>
-          <Link
-            href="#"
-            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection('#skills')}
+            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Recursos
-          </Link>
-          <Link
-            href="#"
-            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800"
-            onClick={() => setMobileMenuOpen(false)}
+          </button>
+          <button
+            onClick={() => scrollToSection('#contact')}
+            className="text-gray-400 hover:text-[#F05A28] py-2 border-b border-gray-800 text-left"
           >
             Contacto
-          </Link>
+          </button>
         </nav>
       </div>
     </header>

@@ -5,38 +5,40 @@ import { motion } from "framer-motion"
 
 export function ServicesSection() {
   return (
-    <section className="py-16 md:py-24 bg-[#0F0000]">
+    <section id="services" className="py-16 md:py-24 bg-[#0F0000]" data-scroll-section>
       <div className="container mx-auto px-4">
         <motion.div 
-          className="max-w-xl"
+          className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
+          data-scroll
+          data-scroll-speed="0.3"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Exploremos <br />
+            
             Nuestros Servicios
           </h2>
           <p className="text-gray-400 text-lg mb-12">
-            Ofrecemos servicios integrales de consultoría en Responsabilidad Social Corporativa y desarrollo educativo.
+            Ofrecemos servicios integrales de consultoría en <br></br>Responsabilidad Social Corporativa y desarrollo educativo.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <ServiceCard
             title="Desarrollo de Estrategia RSE"
-            description="Ayudamos a las organizaciones a crear estrategias integrales de Responsabilidad Social Corporativa alineadas con sus valores y objetivos de negocio."
+            description="Apoyamos a las organizaciones a crear estrategias integrales de Responsabilidad Social Corporativa alineadas con sus valores y objetivos de negocio."
             color="bg-[#F05A28]"
           />
           <ServiceCard
             title="Diseño de Programas Educativos"
-            description="Nuestros expertos desarrollan programas educativos innovadores que generan un impacto significativo para comunidades y grupos de interés."
+            description="Nuestros expertos diseñan, desarrollan e implementan programas educativos innovadores que generan un impacto significativo para comunidades y grupos de interés."
             color="bg-[#E45023]"
           />
           <ServiceCard
             title="Informes de Sostenibilidad"
-            description="Marcos de informes integrales para medir, seguir y comunicar su impacto social y ambiental."
+            description="Marcos de informes integrales para medir, realizar seguimiento y comunicar su impacto social y ambiental."
             color="bg-[#D84A1B]"
           />
           <ServiceCard

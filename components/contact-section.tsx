@@ -20,15 +20,17 @@ export function ContactSection() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#1A0000]">
+    <section id="contact" className="py-16 md:py-24 bg-[#1A0000]" data-scroll-section>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.3 }}
             custom={0}
             variants={fadeIn}
+            data-scroll
+            data-scroll-speed="0.3"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               Descubre cómo podemos transformar <br />

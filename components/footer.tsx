@@ -5,9 +5,17 @@ import { motion } from "framer-motion"
 
 export function Footer() {
   return (
-    <footer className="bg-[#161A25] rounded-xl p-6 mt-8">
+    <footer className="bg-[#161A25] rounded-xl p-6 mt-8 ml-[calc(8vw+2rem)] mr-6" data-scroll-section>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
+        <motion.div 
+          className="md:col-span-1"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          data-scroll
+          data-scroll-speed="0.1"
+        >
           <div className="flex items-center mb-4">
             <Image 
               src="/logo_dejavu.svg" 
@@ -18,7 +26,7 @@ export function Footer() {
             />
           </div>
           <p className="text-gray-400 text-sm mb-4">
-            Transformando organizaciones a través de responsabilidad social corporativa e iniciativas educativas que generan un impacto positivo duradero.
+            Un puente entre comunidades y organizaciones. 
           </p>
           <div className="flex space-x-3">
             <a
@@ -54,7 +62,7 @@ export function Footer() {
               </svg>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         <div>
           <h3 className="text-white font-semibold mb-4">Compañía</h3>

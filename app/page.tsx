@@ -1,6 +1,6 @@
 "use client"
 
-import { Header } from "@/components/header"
+import { SidebarNav } from "@/components/sidebar-nav"
 import { HeroSection } from "@/components/hero-section"
 import { TrustSection } from "@/components/trust-section"
 import { StatsSection } from "@/components/stats-section"
@@ -12,34 +12,53 @@ import { ProjectsSection } from "@/components/projects-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
 import { AnimatePresence } from "framer-motion"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+
+// Import SmoothScroll with dynamic import to avoid SSR issues
+const SmoothScroll = dynamic(() => import("@/components/smooth-scroll"), {
+  ssr: false,
+})
 
 export default function Home() {
+  // State to track if component is mounted
+  const [isMounted, setIsMounted] = useState(false);
+
   // Ensure smooth scrolling for scrollytelling animations
   useEffect(() => {
+    // Mark component as mounted
+    setIsMounted(true);
+    
     document.documentElement.style.scrollBehavior = "smooth";
     return () => {
       document.documentElement.style.scrollBehavior = "";
     };
   }, []);
 
+  // Only render smooth scroll on client-side to avoid hydration errors
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <AnimatePresence>
-      <div className="min-h-screen bg-[#0F0000] text-gray-200">
-        <Header />
-        <main>
-          <HeroSection />
-          <TrustSection />
-          <StatsSection />
-          <FutureSection />
-          <ServicesSection />
-          <SkillsSection />
-          <CtaSection />
-          <ProjectsSection />
-          <ContactSection />
-        </main>
-        <Footer />
-      </div>
+      <SmoothScroll>
+        <div className="min-h-screen bg-[#0F0000] text-gray-200">
+          <SidebarNav />
+          <main>
+            <HeroSection />
+            <TrustSection />
+            <StatsSection />
+            <FutureSection />
+            <ServicesSection />
+            <SkillsSection />
+            <CtaSection />
+            <ProjectsSection />
+            <ContactSection />
+          </main>
+          <Footer />
+        </div>
+      </SmoothScroll>
     </AnimatePresence>
   )
 }

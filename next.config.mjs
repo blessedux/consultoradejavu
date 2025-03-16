@@ -14,15 +14,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    domains: ['placeholder.com'],
   },
-  output: 'export',
-  distDir: 'out',
-  trailingSlash: true,
   experimental: {
     webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
   },
 }
 
