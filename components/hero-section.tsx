@@ -57,22 +57,22 @@ export function HeroSection() {
     }
   };
 
-  // Animation variants for fade-in effects
+  // Enhanced animation variants for fade-in effects
   const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: (custom: number) => ({
       opacity: 1,
       y: 0,
       transition: { 
-        delay: custom * 0.2,
-        duration: 0.8,
-        ease: "easeOut"
+        delay: custom * 0.3,
+        duration: 1.2,
+        ease: [0.25, 0.1, 0.25, 1.0] // Smooth cubic-bezier
       }
     })
   };
 
   return (
-    <section id="hero" className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden min-h-[90vh] w-full" data-scroll-section>
+    <section id="hero" className="relative py-16 md:py-24 overflow-hidden min-h-screen w-full flex flex-col justify-center" data-scroll-section>
       {/* Particles Background */}
       <SectionParticles 
         particleCount={70}
@@ -93,9 +93,9 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Background video with frame - adjusted for full width with content padding */}
-      <div className="absolute mx-8 left-[calc(8vw+2rem)] right-8 top-32 bottom-0 overflow-hidden rounded-[1.5%] border-4 border-[#000000]/20 shadow-[0_0_25px_5px_rgba(240,90,40,0.4)] z-20">
-        <div className="relative w-full h-full">
+      {/* Background video with frame - adjusted for vertical centering */}
+      <div className="absolute mx-8 left-[calc(8vw+2rem)] right-8 top-1/2 -translate-y-[52%] h-[70%] overflow-hidden rounded-[1.5%] border-4 border-[#000000]/20 shadow-[0_0_25px_5px_rgba(240,90,40,0.4)] z-20">
+        <div className="relative w-full h-full opacity-90">
           <iframe
             ref={videoRef}
             className="absolute w-full h-full object-cover scale-110"
@@ -111,14 +111,14 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pl-[calc(8vw+2rem)] relative z-30">
+      <div className="container mx-auto px-4 pl-[calc(8vw+2rem)] relative z-30 mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-end">
           <div className="lg:col-start-7 lg:col-span-6 ml-auto">
             <motion.h1 
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 text-right"
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true }}
               custom={0}
               variants={fadeIn}
               data-scroll
@@ -131,7 +131,7 @@ export function HeroSection() {
               className="text-gray-200 text-lg mb-8 text-right"
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true }}
               custom={1}
               variants={fadeIn}
               data-scroll
@@ -145,7 +145,7 @@ export function HeroSection() {
             <motion.div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true }}
               custom={2}
               variants={fadeIn}
               data-scroll
@@ -163,7 +163,7 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0F0000] to-transparent z-40"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#0F0000] to-transparent z-40"></div>
     </section>
   )
 }

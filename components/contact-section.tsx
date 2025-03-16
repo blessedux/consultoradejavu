@@ -21,9 +21,10 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="py-16 md:py-24 bg-[#1A0000]" data-scroll-section>
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="container mx-auto px-4 pl-[calc(8vw+2rem)] max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           <motion.div
+            className="lg:col-span-6 lg:col-start-1 pl-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
@@ -63,14 +64,13 @@ export function ContactSection() {
                 custom={2}
                 variants={fadeIn}
               >
-                <h3 className="text-white font-semibold mb-2">Información de Contacto</h3>
-                <p className="text-gray-400">Email: info@consultoradejavu.com<br />Teléfono: +34 91 123 4567</p>
+               
               </motion.div>
             </div>
           </motion.div>
           
           <motion.div 
-            className="bg-[#0F0000] rounded-xl p-6"
+            className="bg-[#0F0000] rounded-xl p-6 lg:p-8 shadow-lg lg:col-span-5 lg:col-start-7 mx-auto w-full max-w-md"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
@@ -131,13 +131,7 @@ export function ContactSection() {
               custom={4}
               variants={fadeIn}
             >
-              <Image 
-                src="/logo_dejavu.svg" 
-                alt="Consultora Dejavu Logo" 
-                width={120} 
-                height={40} 
-                className="mt-4"
-              />
+             
             </motion.div>
           </motion.div>
         </div>

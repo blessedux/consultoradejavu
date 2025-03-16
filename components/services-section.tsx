@@ -2,11 +2,13 @@
 
 import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
+import Image from "next/image"
+import { useState, useRef } from "react"
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-16 md:py-24 bg-[#0F0000]" data-scroll-section>
-      <div className="container mx-auto px-4">
+    <section id="services" className="py-16 md:py-24 bg-[#0F0000] relative w-full" data-scroll-section>
+      <div className="container mx-auto px-4 pl-[calc(8vw+2rem)]">
         <motion.div 
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -17,7 +19,6 @@ export function ServicesSection() {
           data-scroll-speed="0.3"
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            
             Nuestros Servicios
           </h2>
           <p className="text-gray-400 text-lg mb-12">
@@ -71,20 +72,101 @@ function ServiceCard({
   description: string
   color: string
 }) {
+  // Tilt effect state and refs
+  const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Handle mouse movement for tilt effect
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    
+    // Calculate mouse position relative to card center (in percentage)
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // -1 to 1
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2; // -1 to 1
+    
+    // Smooth the tilt effect for more natural movement
+    const smoothX = x * 0.8; // Dampen the effect slightly
+    const smoothY = y * 0.8;
+    
+    setTilt({ x: smoothX, y: smoothY, active: true });
+  };
+  
+  // Reset tilt when mouse leaves
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0, active: false });
+  };
+  
+  // Calculate the transform style based on tilt
+  const transform = tilt.active
+    ? `perspective(1000px) rotateX(${tilt.y * -8}deg) rotateY(${tilt.x * 8}deg) scale3d(1.05, 1.05, 1.05)`
+    : 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+  
+  // Calculate glare position based on mouse position
+  const glarePosition = {
+    x: 50 + tilt.x * 25, // 25% - 75% range
+    y: 50 + tilt.y * 25, // 25% - 75% range
+  };
+  
   return (
     <motion.div 
-      className={`${color} rounded-xl p-6 transition-transform hover:scale-105`}
+      ref={cardRef}
+      className={`${color} rounded-xl p-6 relative overflow-hidden group cursor-pointer will-change-transform`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
+      style={{ 
+        transform, 
+        transition: 'transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99)'
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
-      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-      <p className="text-gray-300 mb-6">{description}</p>
-      <div className="flex justify-end">
-        <button className="text-white flex items-center gap-2 hover:text-gray-300 transition-colors">
-          Saber Más <ArrowRight size={16} />
-        </button>
+      {/* Background image with blur effect */}
+      <div className="absolute inset-0 w-full h-full transition-all duration-500 filter blur-[10px] group-hover:blur-[2px] opacity-40 group-hover:opacity-60">
+        <Image 
+          src="/background6.webp"
+          alt="Service background"
+          fill
+          className="object-cover"
+        />
+      </div>
+      
+      {/* Overlay gradient for better text readability */}
+      <div className={`absolute inset-0 ${color} opacity-80 group-hover:opacity-70 transition-opacity duration-500`}></div>
+      
+      {/* Glare effect that follows mouse */}
+      <div 
+        className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: tilt.active
+            ? `radial-gradient(
+                circle at ${glarePosition.x}% ${glarePosition.y}%, 
+                rgba(255, 255, 255, 0.8) 0%, 
+                rgba(255, 255, 255, 0) 60%
+              )`
+            : 'none',
+          mixBlendMode: 'overlay'
+        }}
+      ></div>
+      
+      {/* Card content with 3D effect */}
+      <div className="relative z-10 transform transition-transform duration-300" style={{ 
+        transform: tilt.active ? `translateZ(30px)` : 'translateZ(0px)'
+      }}>
+        <h3 className="text-xl font-bold text-white mb-3 transform transition-transform duration-300" style={{
+          transform: tilt.active ? `translateZ(40px)` : 'translateZ(0px)'
+        }}>{title}</h3>
+        <p className="text-white/90 mb-6">{description}</p>
+        <div className="flex justify-end transform transition-transform duration-300" style={{
+          transform: tilt.active ? `translateZ(50px) translateY(-5px)` : 'translateZ(0px)'
+        }}>
+          <button className="text-white flex items-center gap-2 hover:text-white/80 transition-colors">
+            Saber Más <ArrowRight size={16} />
+          </button>
+        </div>
       </div>
     </motion.div>
   )

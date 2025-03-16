@@ -7,7 +7,7 @@ import { StatsSection } from "@/components/stats-section"
 import { FutureSection } from "@/components/future-section"
 import { ServicesSection } from "@/components/services-section"
 import { SkillsSection } from "@/components/skills-section"
-import { CtaSection } from "@/components/cta-section"
+import { LogoSliderSection } from "@/components/logo-slider-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
@@ -52,7 +52,7 @@ export default function Home() {
             <FutureSection />
             <ServicesSection />
             <SkillsSection />
-            <CtaSection />
+            <LogoSliderSection />
             <ProjectsSection />
             <ContactSection />
           </main>
