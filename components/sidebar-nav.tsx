@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 export function SidebarNav() {
   const [locomotiveScroll, setLocomotiveScroll] = useState<any>(null)
   const [activeSection, setActiveSection] = useState('#hero')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const scrollTimer = useRef<any>(null)
   const lastActiveSection = useRef('#hero')
 
@@ -119,6 +120,18 @@ export function SidebarNav() {
     };
   }, []);
   
+  // Close mobile menu on window resize if screen becomes larger
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
+  
   // Function to scroll to a section
   const scrollToSection = (sectionId: string) => {
     const targetId = sectionId.replace('#', '');
@@ -126,6 +139,11 @@ export function SidebarNav() {
     // Update active section immediately for better UX
     setActiveSection(sectionId);
     lastActiveSection.current = sectionId;
+    
+    // Close mobile menu if open
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
     
     if (locomotiveScroll) {
       try {
@@ -152,6 +170,15 @@ export function SidebarNav() {
     }
   };
 
+  // Handle background click
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    // Only close if clicking on the background (not on buttons or links)
+    // Check if the clicked element is the div itself (not a child)
+    if (e.target === e.currentTarget) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   const navItems = [
     { id: '#hero', label: 'Inicio' },
     { id: '#future', label: 'Nosotros' },
@@ -161,68 +188,227 @@ export function SidebarNav() {
     { id: '#contact', label: 'Contacto' },
   ];
 
+  // Mobile menu animations
+  const mobileMenuVariants = {
+    hidden: { opacity: 0, y: "-100%" },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      y: "-100%",
+      transition: {
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
+      }
+    }
+  };
+
+  // Burger button animation variants
+  const lineVariants = {
+    closed: { rotate: 0 },
+    open: { rotate: 45 }
+  };
+  
+  const line2Variants = {
+    closed: { opacity: 1 },
+    open: { opacity: 0 }
+  };
+  
+  const line3Variants = {
+    closed: { rotate: 0 },
+    open: { rotate: -45 }
+  };
+  
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div className="fixed left-20 top-4 bottom-4 w-[8vw] z-50">
-      <aside className="h-full bg-white/5 backdrop-blur-md rounded-[2rem] flex flex-col items-center py-8 border border-white/10 shadow-xl">
-        {/* Logo */}
-        <div 
-          onClick={() => scrollToSection('#hero')} 
-          className="w-full px-4 cursor-pointer"
-        >
-          <Image 
-            src="/logo_dejavu.svg" 
-            alt="Consultora Dejavu Logo" 
-            width={120} 
-            height={36}
-            className="w-full h-auto" 
-          />
-        </div>
+    <>
+      {/* Desktop Navigation */}
+      <div className="fixed left-20 top-4 bottom-4 w-[8vw] z-50 hidden md:block">
+        <aside className="h-full bg-white/5 backdrop-blur-md rounded-[2rem] flex flex-col items-center py-8 border border-white/10 shadow-xl">
+          {/* Logo */}
+          <div 
+            onClick={() => scrollToSection('#hero')} 
+            className="w-full px-4 cursor-pointer"
+          >
+            <Image 
+              src="/logo_dejavu.svg" 
+              alt="Consultora Dejavu Logo" 
+              width={120} 
+              height={36}
+              className="w-full h-auto" 
+            />
+          </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 flex flex-col items-start justify-center gap-8 w-full px-4">
-          {navItems.map((item, index) => (
-            <motion.button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={cn(
-                "text-gray-400 hover:text-[#F05A28] transition-all duration-500 ease-in-out text-sm font-medium w-full text-left",
-                activeSection === item.id && "text-[#F05A28]"
-              )}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+          {/* Navigation Items */}
+          <nav className="flex-1 flex flex-col items-start justify-center gap-8 w-full px-4">
+            {navItems.map((item, index) => (
+              <motion.button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={cn(
+                  "text-gray-400 hover:text-[#F05A28] transition-all duration-500 ease-in-out text-sm font-medium w-full text-left",
+                  activeSection === item.id && "text-[#F05A28]"
+                )}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                {item.label}
+              </motion.button>
+            ))}
+          </nav>
+
+          {/* Social Links */}
+          <div className="flex flex-col gap-4 items-center">
+            <motion.a
+              href="https://www.linkedin.com/company/consultoradejavu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
+              whileHover={{ scale: 1.1 }}
             >
-              {item.label}
-            </motion.button>
-          ))}
-        </nav>
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </motion.a>
+            <motion.a
+              href="https://www.youtube.com/@consultoradejavu5347"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
+              whileHover={{ scale: 1.1 }}
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+              </svg>
+            </motion.a>
+          </div>
+        </aside>
+      </div>
 
-        {/* Social Links */}
-        <div className="flex flex-col gap-4 items-center">
-          <motion.a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
-            whileHover={{ scale: 1.1 }}
+      {/* Mobile Navigation */}
+      <div className="fixed top-0 left-0 right-0 z-[60] md:hidden">
+        {/* Mobile Header Bar - Ensure it's above everything */}
+        <div className="flex justify-between items-center px-4 py-3 bg-[#0F0000]/80 backdrop-blur-md border-b border-white/10 relative z-[200]">
+          {/* Logo */}
+          <div 
+            onClick={() => scrollToSection('#hero')} 
+            className="cursor-pointer"
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-            </svg>
-          </motion.a>
-          <motion.a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
-            whileHover={{ scale: 1.1 }}
+            <Image 
+              src="/logo_dejavu.svg" 
+              alt="Consultora Dejavu Logo" 
+              width={100} 
+              height={30}
+              className="h-8 w-auto" 
+            />
+          </div>
+          
+          {/* Burger Menu Button - Highest z-index */}
+          <button 
+            className="w-10 h-10 relative focus:outline-none z-[1000]"
+            onClick={toggleMobileMenu}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </motion.a>
+            <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <motion.span
+                className="block absolute h-0.5 w-5 bg-white transform transition duration-300 ease-in-out"
+                animate={isMobileMenuOpen ? "open" : "closed"}
+                variants={lineVariants}
+                style={{ transformOrigin: "center" }}
+              ></motion.span>
+              <motion.span
+                className="block absolute h-0.5 w-5 bg-white transform transition duration-300 ease-in-out mt-1.5"
+                animate={isMobileMenuOpen ? "open" : "closed"}
+                variants={line2Variants}
+              ></motion.span>
+              <motion.span
+                className="block absolute h-0.5 w-5 bg-white transform transition duration-300 ease-in-out mt-3"
+                animate={isMobileMenuOpen ? "open" : "closed"}
+                variants={line3Variants}
+                style={{ transformOrigin: "center" }}
+              ></motion.span>
+            </div>
+          </button>
         </div>
-      </aside>
-    </div>
+        
+        {/* Full-screen Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              className="fixed inset-0 bg-white/5 backdrop-blur-md z-[100] flex flex-col"
+              variants={mobileMenuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={handleBackgroundClick}
+              style={{ position: 'fixed' }}
+            >
+              <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 overflow-y-auto mt-14" onClick={(e) => e.stopPropagation()}>
+                {/* Navigation Items */}
+                <nav className="w-full max-w-md mx-auto">
+                  {navItems.map((item, index) => (
+                    <motion.button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={cn(
+                        "text-gray-200 hover:text-[#F05A28] transition-all duration-300 text-xl font-medium w-full text-center py-5 border-b border-white/10",
+                        activeSection === item.id && "text-[#F05A28]"
+                      )}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 + 0.2 }}
+                    >
+                      {item.label}
+                    </motion.button>
+                  ))}
+                </nav>
+                
+                {/* Social Links */}
+                <motion.div 
+                  className="flex gap-8 items-center mt-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <motion.a
+                    href="https://www.linkedin.com/company/consultoradejavu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                  </motion.a>
+                  <motion.a
+                    href="https://www.youtube.com/@consultoradejavu5347"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-[#F05A28] transition-colors duration-300"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                  </motion.a>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </>
   );
 } 

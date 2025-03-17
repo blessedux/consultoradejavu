@@ -94,12 +94,19 @@ export function HeroSection() {
       </div>
 
       {/* Background video with frame - adjusted for vertical centering */}
-      <div className="absolute mx-8 left-[calc(8vw+2rem)] right-8 top-1/2 -translate-y-[52%] h-[70%] overflow-hidden rounded-[1.5%] border-4 border-[#000000]/20 shadow-[0_0_25px_5px_rgba(240,90,40,0.4)] z-20">
+      <div className="absolute mx-4 sm:mx-8 left-0 sm:left-[calc(8vw+2rem)] right-0 top-1/2 -translate-y-1/2 h-[60%] sm:h-[70%] overflow-hidden rounded-[1.5%] border-4 border-[#000000]/20 shadow-[0_0_25px_5px_rgba(240,90,40,0.4)] z-20">
         <div className="relative w-full h-full opacity-90">
           <iframe
             ref={videoRef}
-            className="absolute w-full h-full object-cover scale-110"
-            src="https://www.youtube.com/embed/KdCN8_IStlA?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&cc_load_policy=0&playlist=KdCN8_IStlA&enablejsapi=1"
+            className="absolute w-full h-full object-cover scale-[2.4] sm:scale-[1.25] origin-center transform-gpu"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              left: '0',
+              top: '0',
+            }}
+            src="https://www.youtube.com/embed/KdCN8_IStlA?start=6&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&cc_load_policy=0&playlist=KdCN8_IStlA&enablejsapi=1"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             frameBorder="0"
@@ -111,11 +118,11 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 pl-[calc(8vw+2rem)] relative z-30 mt-6">
+      <div className="container mx-auto px-4 relative z-30 mt-6 pl-0 sm:pl-[calc(8vw+2rem)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-end">
           <div className="lg:col-start-7 lg:col-span-6 ml-auto">
             <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 text-right"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 text-right"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -128,7 +135,7 @@ export function HeroSection() {
             </motion.h1>
             
             <motion.p 
-              className="text-gray-200 text-lg mb-8 text-right"
+              className="text-gray-200 text-base sm:text-lg mb-8 text-right"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -155,7 +162,7 @@ export function HeroSection() {
             >
               <Button 
                 onClick={scrollToContact}
-                className="bg-[#F05A28] hover:bg-[#D84A1B] text-white px-8 py-6 rounded-md text-lg transition-all duration-300 transform hover:scale-105"
+                className="bg-[#F05A28] hover:bg-[#D84A1B] text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md text-base sm:text-lg transition-all duration-300 transform hover:scale-105"
               >
                 Contáctanos Ahora
               </Button>
