@@ -25,7 +25,7 @@ export function TrustSection() {
           data-scroll
           data-scroll-speed="0.3"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Construimos confianza a través del impacto social</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Construimos confianza a través del <br></br>impacto social</h2>
           <p className="text-gray-400 text-lg mb-8">
             Ayudamos a las organizaciones a desarrollar e implementar estrategias efectivas de Responsabilidad Social Corporativa 
             y programas educativos que actúan como puentes entre comunidades y organizaciones, generando impacto positivo y fortaleciendo su marca.

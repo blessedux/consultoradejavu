@@ -131,7 +131,7 @@ export function HeroSection() {
               data-scroll
               data-scroll-speed="0.5"
             >
-              Actitud innovadora hacia la <span className="text-[#F05A28]">responsabilidad social</span>
+              Actitud innovadora hacia la <span className="text-[#F05A28] font-lettering">Responsabilidad Social</span>
             </motion.h1>
             
             <motion.p 
