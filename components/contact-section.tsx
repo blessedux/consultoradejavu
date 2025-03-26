@@ -3,8 +3,51 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+
+type FormData = {
+  name: string;
+  organization: string;
+  email: string;
+  message: string;
+};
 
 export function ContactSection() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
+    console.log('Form submitted with data:', data); // Debug log
+    try {
+      setIsSubmitting(true);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      console.log('Response status:', response.status); // Debug log
+      const result = await response.json();
+      console.log('Response data:', result); // Debug log
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el mensaje');
+      }
+
+      toast.success('Mensaje enviado exitosamente');
+      reset();
+    } catch (error) {
+      console.error('Form submission error:', error); // Debug log
+      toast.error('Error al enviar el mensaje');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Animation variants for fade-in effects
   const fadeIn = {
     hidden: { opacity: 0, y: 30 },
@@ -78,48 +121,74 @@ export function ContactSection() {
             variants={fadeIn}
           >
             <h3 className="text-xl font-bold text-white mb-6">Creemos juntos un impacto social significativo</h3>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-gray-400 mb-2">Nombre Completo</label>
                 <input 
+                  {...register("name", { required: "El nombre es requerido" })}
                   type="text" 
                   id="name" 
                   className="w-full bg-[#1A0000] border border-gray-800 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-[#F05A28]"
                   placeholder="Juan Pérez"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="organization" className="block text-gray-400 mb-2">Organización</label>
                 <input 
+                  {...register("organization", { required: "La organización es requerida" })}
                   type="text" 
                   id="organization" 
                   className="w-full bg-[#1A0000] border border-gray-800 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-[#F05A28]"
                   placeholder="Tu Organización"
                 />
+                {errors.organization && (
+                  <p className="text-red-500 text-sm mt-1">{errors.organization.message}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="email" className="block text-gray-400 mb-2">Correo Electrónico</label>
                 <input 
+                  {...register("email", { 
+                    required: "El email es requerido",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Email inválido"
+                    }
+                  })}
                   type="email" 
                   id="email" 
                   className="w-full bg-[#1A0000] border border-gray-800 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-[#F05A28]"
                   placeholder="juan@ejemplo.com"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="message" className="block text-gray-400 mb-2">Tu Mensaje</label>
                 <textarea 
+                  {...register("message", { required: "El mensaje es requerido" })}
                   id="message" 
                   rows={4}
                   className="w-full bg-[#1A0000] border border-gray-800 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-1 focus:ring-[#F05A28]"
                   placeholder="Cuéntanos sobre tus objetivos de responsabilidad social y cómo podemos ayudarte"
                 ></textarea>
+                {errors.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                )}
               </div>
               <div className="text-gray-400 text-sm mb-4">
                 <p>Sin un enfoque estratégico, muchas organizaciones pierden la oportunidad de hacer una diferencia duradera. Imagina a tu organización reconocida no solo por su éxito, sino por su compromiso con la comunidad.</p>
               </div>
-              <Button className="bg-[#F05A28] hover:bg-[#D84A1B] text-white px-6 py-2 rounded-md w-full">
-                Comenzar Tu Impacto
+              <Button 
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-[#F05A28] hover:bg-[#D84A1B] text-white px-6 py-2 rounded-md w-full"
+              >
+                {isSubmitting ? 'Enviando...' : 'Comenzar Tu Impacto'}
               </Button>
             </form>
             

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import GlobalDebug from './global'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: 'Consultora Dejavu',
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body>
         <GlobalDebug />
         {children}
+        <Toaster />
       </body>
     </html>
   )

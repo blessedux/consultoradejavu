@@ -2,8 +2,15 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useState } from "react"
 
 export function SkillsSection() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const toggleVideo = () => {
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <section id="skills" className="py-16 md:py-24 bg-[#1A0000]" data-scroll-section>
       <div className="container mx-auto px-4">
@@ -15,13 +22,51 @@ export function SkillsSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <Image
-              src="/placeholder.svg?height=500&width=600"
-              alt="Miembros del equipo"
-              width={600}
-              height={500}
-              className="rounded-xl"
-            />
+            <div className="relative w-full aspect-[6/5] rounded-xl overflow-hidden">
+              <div className="absolute inset-0 w-full h-full rounded-xl bg-gradient-to-br from-[#1A0000] to-[#2A0000]">
+                <div className="relative w-full h-full">
+                  {isPlaying ? (
+                    <iframe
+                      src="https://www.youtube.com/embed/M-A78UkBZH0?autoplay=1&controls=0&modestbranding=1&showinfo=0&rel=0&start=10&playsinline=1&mute=1"
+                      className="absolute top-0 left-0 w-full h-full object-cover opacity-50 rounded-xl"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <Image 
+                    src="/background3.webp"
+                    alt="Video preview"
+                    fill
+                    className="object-cover opacity-50 rounded-xl"
+                  />
+                  )}
+                </div>
+                
+                <div 
+                  className="absolute inset-0 flex items-center justify-center cursor-pointer z-20"
+                  onClick={toggleVideo}
+                >
+                  <div className="bg-[#F05A28]/20 w-24 h-24 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-[#F05A28]/30 transition-all">
+                    {isPlaying ? (
+                      <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {!isPlaying && (
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F0000]/80 via-transparent to-transparent rounded-xl"></div>
+              )}
+              <div className="absolute inset-0 rounded-xl border border-[#F05A28]/20 shadow-[0_0_15px_2px_rgba(240,90,40,0.2)]"></div>
+            </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 50 }}

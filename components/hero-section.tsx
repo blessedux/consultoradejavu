@@ -106,7 +106,7 @@ export function HeroSection() {
               left: '0',
               top: '0',
             }}
-            src="https://www.youtube.com/embed/KdCN8_IStlA?start=6&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&cc_load_policy=0&playlist=KdCN8_IStlA&enablejsapi=1"
+            src="https://www.youtube.com/embed/KdCN8_IStlA?start=25&autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&cc_load_policy=0&playlist=KdCN8_IStlA&enablejsapi=1"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             frameBorder="0"
