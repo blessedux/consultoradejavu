@@ -23,17 +23,17 @@ export function ProjectsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <ProjectCard
-            image="/placeholder.svg?height=300&width=400"
+            image="/project-gallery/9alumni.webp"
             title="Iniciativa de Empoderamiento Educativo"
             description="Desarrollamos un programa educativo integral para comunidades desatendidas, llegando a más de 5.000 estudiantes."
           />
           <ProjectCard
-            image="/placeholder.svg?height=300&width=400"
+            image="/project-gallery/9alumni2.webp"
             title="Marco de Sostenibilidad Corporativa"
             description="Creamos una estrategia integrada de RSE para una empresa multinacional, reduciendo el impacto ambiental en un 35%."
           />
           <ProjectCard
-            image="/placeholder.svg?height=300&width=400"
+            image="/project-gallery/9esc.webp"
             title="Programa de Desarrollo Comunitario"
             description="Diseñamos e implementamos una iniciativa integral de participación comunitaria que mejoró los resultados educativos locales en un 40%."
           />

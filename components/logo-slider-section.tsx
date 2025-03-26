@@ -7,18 +7,11 @@ import Image from "next/image"
 // List of logos from the public/icons/logos directory
 const LOGOS = [
   "20.svg",
-  "A4tP0dUCYAEPo6I.svg",
   "ALASA.svg",
   "ALLSA.svg",
   "ASSA.svg",
-  "LOGO CORRECTO CONASET-01.svg",
-  "Logo-Nuevo-MUTUAL-PPT.svg",
-  "NUEVO LOGO FUNDACION MAPFRE.svg",
-  "ObsPvBZv_400x400.svg",
   "SunEdison-Logo-Full-Color-High-Res.svg",
-  "abertis_autopistas_6.svg",
-  "rutas del Pacifico.svg",
-  "sernageomin.svg",
+  "rutas del Pacifico.svg"
 ];
 
 export function LogoSliderSection() {
