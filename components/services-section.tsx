@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useState, useRef } from "react"
+import Link from "next/link"
 
 export function ServicesSection() {
   return (
@@ -31,31 +32,37 @@ export function ServicesSection() {
             title="Desarrollo de Estrategia RSE"
             description="Apoyamos a las organizaciones a crear estrategias integrales de Responsabilidad Social Corporativa alineadas con sus valores y objetivos de negocio."
             color="bg-[#F05A28]"
+            href="/desarrollo-de-estrategia-rse"
           />
           <ServiceCard
             title="Diseño de Programas Educativos"
             description="Nuestros expertos diseñan, desarrollan e implementan programas educativos innovadores que generan un impacto significativo para comunidades y grupos de interés."
             color="bg-[#E45023]"
+            href="/diseno-de-programas-educativos"
           />
           <ServiceCard
             title="Informes de Sostenibilidad"
             description="Marcos de informes integrales para medir, realizar seguimiento y comunicar su impacto social y ambiental."
             color="bg-[#D84A1B]"
+            href="/informes-de-sostenibilidad"
           />
           <ServiceCard
             title="Participación Comunitaria"
             description="Estrategias para construir relaciones auténticas con las comunidades a través de iniciativas sociales significativas y programas educativos."
             color="bg-[#F05A28]"
+            href="/participacion-comunitaria"
           />
           <ServiceCard
             title="Evaluación de Impacto"
             description="Evaluación rigurosa de sus iniciativas de responsabilidad social para medir resultados y optimizar programas futuros."
             color="bg-[#E45023]"
+            href="/evaluacion-de-impacto"
           />
           <ServiceCard
             title="Innovación Educativa"
             description="Enfoques de vanguardia para el desarrollo educativo que abordan las necesidades reales de la comunidad y crean un cambio duradero."
             color="bg-[#D84A1B]"
+            href="/innovacion-educativa"
           />
         </div>
       </div>
@@ -67,10 +74,12 @@ function ServiceCard({
   title,
   description,
   color,
+  href,
 }: {
   title: string
   description: string
   color: string
+  href: string
 }) {
   // Tilt effect state and refs
   const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
@@ -110,65 +119,54 @@ function ServiceCard({
   };
   
   return (
-    <motion.div 
-      ref={cardRef}
-      className={`${color} rounded-xl p-6 relative overflow-hidden group cursor-pointer will-change-transform`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
-      style={{ 
-        transform, 
-        transition: 'transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99)'
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Background image with blur effect */}
-      <div className="absolute inset-0 w-full h-full transition-all duration-500 filter blur-[10px] group-hover:blur-[2px] opacity-40 group-hover:opacity-60">
-        <Image 
-          src="/background6.webp"
-          alt="Service background"
-          fill
-          className="object-cover"
-        />
-      </div>
-      
-      {/* Overlay gradient for better text readability */}
-      <div className={`absolute inset-0 ${color} opacity-80 group-hover:opacity-70 transition-opacity duration-500`}></div>
-      
-      {/* Glare effect that follows mouse */}
-      <div 
-        className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: tilt.active
-            ? `radial-gradient(
-                circle at ${glarePosition.x}% ${glarePosition.y}%, 
-                rgba(255, 255, 255, 0.8) 0%, 
-                rgba(255, 255, 255, 0) 60%
-              )`
-            : 'none',
-          mixBlendMode: 'overlay'
+    <Link href={href} className="block">
+      <motion.div 
+        ref={cardRef}
+        className={`${color} rounded-xl p-6 relative overflow-hidden group cursor-pointer will-change-transform h-full flex flex-col`}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        style={{ 
+          transform, 
+          transition: 'transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99)'
         }}
-      ></div>
-      
-      {/* Card content with 3D effect */}
-      <div className="relative z-10 transform transition-transform duration-300" style={{ 
-        transform: tilt.active ? `translateZ(30px)` : 'translateZ(0px)'
-      }}>
-        <h3 className="text-xl font-bold text-white mb-3 transform transition-transform duration-300" style={{
-          transform: tilt.active ? `translateZ(40px)` : 'translateZ(0px)'
-        }}>{title}</h3>
-        <p className="text-white/90 mb-6">{description}</p>
-        <div className="flex justify-end transform transition-transform duration-300" style={{
-          transform: tilt.active ? `translateZ(50px) translateY(-5px)` : 'translateZ(0px)'
-        }}>
-          <button className="text-white flex items-center gap-2 hover:text-white/80 transition-colors">
-            Saber Más <ArrowRight size={16} />
-          </button>
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Background image with enhanced visibility */}
+        <div className="absolute inset-0 w-full h-full transition-all duration-500 filter blur-[4px] group-hover:blur-[1px] opacity-80 group-hover:opacity-95">
+          <Image 
+            src="/background6.webp"
+            alt="Service background"
+            fill
+            className="object-cover"
+          />
         </div>
-      </div>
-    </motion.div>
+        
+        {/* Overlay gradient with reduced opacity */}
+        <div className={`absolute inset-0 ${color} opacity-40 group-hover:opacity-30 transition-opacity duration-500`}></div>
+        
+        {/* Card content with flex layout */}
+        <div className="relative z-10 flex flex-col h-full">
+          <div className="flex-grow">
+            <h3 className="text-xl font-bold text-white mb-3 transform transition-transform duration-300" style={{
+              transform: tilt.active ? `translateZ(40px)` : 'translateZ(0px)'
+            }}>{title}</h3>
+            <p className="text-white/90 mb-6">{description}</p>
+          </div>
+          
+          {/* Button container with fixed bottom margin */}
+          <div className="mt-auto pt-4 transform transition-transform duration-300" style={{
+            transform: tilt.active ? `translateZ(50px) translateY(-5px)` : 'translateZ(0px)'
+          }}>
+            <button className="text-white flex items-center gap-2 hover:text-white/80 transition-colors">
+              Saber Más <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </Link>
   )
 }
 

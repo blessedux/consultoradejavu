@@ -183,7 +183,7 @@ export function SidebarNav() {
     { id: '#hero', label: 'Inicio' },
     { id: '#future', label: 'Nosotros' },
     { id: '#services', label: 'Servicios' },
-    { id: '#skills', label: 'Recursos' },
+    { id: '#skills', label: 'Experiencia' },
     { id: '#projects', label: 'Proyectos' },
     { id: '#contact', label: 'Contacto' },
   ];
