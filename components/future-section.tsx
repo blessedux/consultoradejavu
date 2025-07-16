@@ -12,6 +12,30 @@ export function FutureSection() {
     setIsPlaying(!isPlaying);
   };
 
+  // Function to scroll to sections
+  const scrollToSection = (sectionId: string, offset: number = -100) => {
+    // Check if Locomotive Scroll instance exists on window
+    const locomotiveScroll = (window as any).__locomotiveScroll;
+    
+    if (locomotiveScroll) {
+      // Use Locomotive Scroll's scrollTo method with smooth animation
+      locomotiveScroll.scrollTo(sectionId, {
+        offset: offset,
+        duration: 1500,
+        easing: [0.25, 0.1, 0.25, 1.0] // cubic-bezier easing for a nice, smooth scroll
+      });
+    } else {
+      // Fallback to native scrollIntoView if Locomotive Scroll isn't available
+      const section = document.getElementById(sectionId.replace('#', ''));
+      if (section) {
+        section.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
+
   return (
     <section id="future" className="py-16 md:py-24 bg-[#0F0000] relative w-full" data-scroll-section>
       {/* Add a background overlay for the section for better visuals */}
@@ -43,7 +67,7 @@ export function FutureSection() {
                   ></iframe>
                 ) : (
                   <Image 
-                    src="/placeholder1a.png"
+                    src="/background6.webp"
                     alt="Video preview"
                     fill
                     className="object-cover opacity-50 rounded-xl"
@@ -111,7 +135,7 @@ export function FutureSection() {
             </div>
             <Button 
               onClick={() => {
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                scrollToSection('#contact', -150);
               }}
               className="bg-[#F05A28] hover:bg-[#D84A1B] text-white px-6 py-2 rounded-md transition-all duration-300 transform hover:scale-105"
             >
