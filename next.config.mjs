@@ -26,7 +26,6 @@ const nextConfig = {
       //   pathname: '/images/**',
       // },
     ],
-    quality: 75, // Adjust quality
     deviceSizes: [320, 420, 768, 1024, 1200], // Optimize for common device sizes
     imageSizes: [16, 32, 48, 64, 96, 128, 256], // Optimize for common image component sizes
   },

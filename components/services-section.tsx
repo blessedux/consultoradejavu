@@ -23,7 +23,7 @@ export function ServicesSection() {
             Nuestros Servicios
           </h2>
           <p className="text-gray-400 text-lg mb-12">
-            Ofrecemos servicios integrales de consultoría en <br></br>Responsabilidad Social Corporativa y desarrollo educativo.
+            Ofrecemos servicios integrales de consultoría en <br></br>Responsabilidad Social Corporativa y Desarrollo Educativo.
           </p>
         </motion.div>
 
@@ -119,21 +119,20 @@ function ServiceCard({
   };
   
   return (
-    <Link href={href} className="block">
-      <motion.div 
-        ref={cardRef}
-        className={`${color} rounded-xl p-6 relative overflow-hidden group cursor-pointer will-change-transform h-full flex flex-col`}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        style={{ 
-          transform, 
-          transition: 'transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99)'
-        }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
+    <motion.div 
+      ref={cardRef}
+      className={`${color} rounded-xl p-6 relative overflow-hidden group will-change-transform h-full flex flex-col`}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      style={{ 
+        transform, 
+        transition: 'transform 0.3s cubic-bezier(0.03, 0.98, 0.52, 0.99)'
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
         {/* Background image with enhanced visibility */}
         <div className="absolute inset-0 w-full h-full transition-all duration-500 filter blur-[4px] group-hover:blur-[1px] opacity-80 group-hover:opacity-95">
           <Image 
@@ -147,26 +146,14 @@ function ServiceCard({
         {/* Overlay gradient with reduced opacity */}
         <div className={`absolute inset-0 ${color} opacity-40 group-hover:opacity-30 transition-opacity duration-500`}></div>
         
-        {/* Card content with flex layout */}
-        <div className="relative z-10 flex flex-col h-full">
-          <div className="flex-grow">
-            <h3 className="text-xl font-bold text-white mb-3 transform transition-transform duration-300" style={{
-              transform: tilt.active ? `translateZ(40px)` : 'translateZ(0px)'
-            }}>{title}</h3>
-            <p className="text-white/90 mb-6">{description}</p>
-          </div>
-          
-          {/* Button container with fixed bottom margin */}
-          <div className="mt-auto pt-4 transform transition-transform duration-300" style={{
-            transform: tilt.active ? `translateZ(50px) translateY(-5px)` : 'translateZ(0px)'
-          }}>
-            <button className="text-white flex items-center gap-2 hover:text-white/80 transition-colors">
-              Saber Más <ArrowRight size={16} />
-            </button>
-          </div>
+        {/* Card content */}
+        <div className="relative z-10">
+          <h3 className="text-xl font-bold text-white mb-3 transform transition-transform duration-300" style={{
+            transform: tilt.active ? `translateZ(40px)` : 'translateZ(0px)'
+          }}>{title}</h3>
+          <p className="text-white/90">{description}</p>
         </div>
       </motion.div>
-    </Link>
   )
 }
 

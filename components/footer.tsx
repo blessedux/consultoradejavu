@@ -88,7 +88,7 @@ export function Footer() {
 
         {/* Right Column - Address and Social Icons */}
         <motion.div
-          className="md:col-span-1"
+          className="md:col-span-1 text-right"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -98,7 +98,7 @@ export function Footer() {
         >
           <h3 className="text-white font-semibold mb-4">Contacto</h3>
           <address className="text-gray-400 text-sm mb-6 not-italic">
-            <p className="mb-2">Napoleón 3565, 
+            <p className="mb-2">Apoquindo 6410 of 605 
             </p>
             <p className="mb-2">Las Condes, Región Metropolitana</p>
             <p className="mb-2">Chile</p>
@@ -107,7 +107,7 @@ export function Footer() {
           </address>
           
           <h3 className="text-white font-semibold mb-4">Síguenos</h3>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 justify-end">
             <a
               href="#"
               className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#F05A28] hover:text-white transition-colors"

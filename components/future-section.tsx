@@ -43,7 +43,7 @@ export function FutureSection() {
                   ></iframe>
                 ) : (
                   <Image 
-                    src="/background3.webp"
+                    src="/placeholder1a.png"
                     alt="Video preview"
                     fill
                     className="object-cover opacity-50 rounded-xl"
@@ -88,18 +88,18 @@ export function FutureSection() {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               Estamos construyendo un futuro <br />
-              sostenible juntos. ¡Únete!
+              sostenible. ¡Únete!
             </h2>
             <p className="text-gray-400 text-lg mb-8">
-              Nuestro equipo de consultores con 25+ años de experiencia se dedica a la Responsabilidad Social Corporativa e 
-              innovación educativa ayudando a organizaciones a crear un impacto social significativo mientras 
-              alcanzan sus objetivos estratégicos.
+            Nuestro equipo de consultores con 25+ años de experiencia se dedica a la Responsabilidad Social Corporativa e innovación 
+            educativa ayudando a organizaciones a crear un impacto social significativo mientras alcanzan sus objetivos estratégicos.
             </p>
             <div className="bg-[#1A0000]/80 backdrop-blur-sm p-6 rounded-xl mb-8 border border-white/10">
               <p className="text-gray-300 italic">
-                "Trabajar con Consultora Dejavu transformó nuestro enfoque de responsabilidad social. Sus programas 
-                educativos nos ayudaron a conectar con nuestra comunidad de manera significativa y mejoraron 
-                considerablemente la percepción de nuestra marca."
+              "Trabajar con Consultora Dejavu transformó nuestro enfoque de la Responsabilidad Social. 
+              Sus programas educativos nos ayudaron a conectar con nuestra comunidad de manera significativa 
+              y mejoraron considerablemente la percepción de la comunidad con una empresa comprometida como 
+              la fotovoltaica Sun Edison."
               </p>
               <div className="flex items-center mt-4">
                 <div className="h-10 w-10 rounded-full bg-[#F05A28]"></div>

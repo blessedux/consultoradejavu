@@ -75,12 +75,11 @@ export function SkillsSection() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Nuestra experiencia es por qué las <br />
-              organizaciones eligen asociarse con nosotros
+              Las organizaciones eligen asociarse con nosotros
             </h2>
             <p className="text-gray-400 text-lg mb-8">
-              Nuestro equipo de 25 consultores aporta conocimientos especializados en Responsabilidad Social Corporativa y 
-              desarrollo educativo para crear un impacto significativo.
+            Nuestro equipo de 25 consultores aporta conocimientos especializados en 
+            Responsabilidad Social Corporativa y Desarrollo Educativo para crear un impacto significativo.
             </p>
 
             <div className="grid grid-cols-3 gap-8 mb-8">
