@@ -1,65 +1,58 @@
 "use client"
 
-import { SidebarNav } from "@/components/sidebar-nav"
-import { HeroSection } from "@/components/hero-section"
-import { TrustSection } from "@/components/trust-section"
-import { StatsSection } from "@/components/stats-section"
-import { FutureSection } from "@/components/future-section"
-import { ServicesSection } from "@/components/services-section"
-import { SkillsSection } from "@/components/skills-section"
-import { LogoSliderSection } from "@/components/logo-slider-section"
-import { ProjectsSection } from "@/components/projects-section"
-import { ContactSection } from "@/components/contact-section"
-import { Footer } from "@/components/footer"
-import { AnimatePresence } from "framer-motion"
+import Image from "next/image"
+import { motion } from "framer-motion"
+import SectionParticles from "@/components/ui/sectionParticles"
 import { useEffect, useState } from "react"
-import dynamic from "next/dynamic"
 
-// Import SmoothScroll with dynamic import to avoid SSR issues
-const SmoothScroll = dynamic(() => import("@/components/smooth-scroll"), {
-  ssr: false,
-})
+export default function UnderMaintenancePage() {
+  const [isMounted, setIsMounted] = useState(false)
 
-export default function Home() {
-  // State to track if component is mounted
-  const [isMounted, setIsMounted] = useState(false);
-
-  // Ensure smooth scrolling for scrollytelling animations
   useEffect(() => {
-    // Mark component as mounted
-    setIsMounted(true);
-    
-    document.documentElement.style.scrollBehavior = "smooth";
-    return () => {
-      document.documentElement.style.scrollBehavior = "";
-    };
-  }, []);
+    setIsMounted(true)
+  }, [])
 
-  // Only render smooth scroll on client-side to avoid hydration errors
   if (!isMounted) {
-    return null;
+    return null
   }
 
   return (
-    <AnimatePresence>
-      <SmoothScroll>
-        <div className="min-h-screen bg-[#0F0000] text-gray-200">
-          <SidebarNav />
-          <main>
-            <HeroSection />
-            <TrustSection />
-            <StatsSection />
-            <FutureSection />
-            <ServicesSection />
-            <SkillsSection />
-            <LogoSliderSection />
-            <ProjectsSection />
-            <ContactSection />
-          </main>
-          <Footer />
-        </div>
-      </SmoothScroll>
-    </AnimatePresence>
+    <div className="min-h-screen w-full bg-[#0F0000] text-gray-200 flex flex-col justify-center items-center overflow-hidden relative">
+      {/* Particles Background - same as hero */}
+      <SectionParticles
+        particleCount={70}
+        color="rgba(255, 255, 255, 0.7)"
+        opacity={0.7}
+        speed={0.4}
+        className="absolute inset-0 w-full h-full z-10"
+      />
+
+      {/* Background image - same as hero */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <Image
+          src="/background3.webp"
+          alt=""
+          fill
+          className="opacity-30"
+          priority
+          style={{
+            objectFit: "cover",
+            objectPosition: "center bottom",
+          }}
+        />
+      </div>
+
+      {/* Centered under maintenance text */}
+      <motion.div
+        className="relative z-30 text-center px-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
+          Under maintenance
+        </h1>
+      </motion.div>
+    </div>
   )
 }
-
